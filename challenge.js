@@ -22,6 +22,11 @@ function getSubmitButton() {
   return $("#loginbutton");
 }
 
+// for PayPal
+function getPaypalLogInButton() {
+  return $("#ul-btn");
+}
+
 /**
  * Logs in into a website.
  *
@@ -59,6 +64,44 @@ window.detectFormFields = function() {
   //
   // XXX: Modify this code, if necessary, to work on more sites.
   //
+
+  // for PayPal
+
+  // Strategy #1: redirect to the login page if no login form fields are found on home page
+
+  if (getFormField() === null) {
+    console.log("no form fields detected");
+    var currentUrl = location.href;
+    var newUrl = location.href + "/login";
+    location.href = newUrl;
+  }
+
+  // Strategy #2: find login button and click it with JS if no form fields are found on home page
+  if (getFormField() === null) {
+    console.log("no form fields detected");
+    $('#ul-btn').click(function () {
+      $('#ul-btn').click();
+    }); 
+  }
+
+  // Strategy #3: find a login link and automatically click that link
+  //document.getElementById('#ul-btn').click();
+  var paypalLogInButton = getPaypalLogInButton();
+  console.log(paypalLogInButton);
+  //$(paypalLogInButton).onclick(function () {
+  //  window.location.href = "https://www.paypal.com/login";
+  //}); 
+
+  paypalLogInButton.click();
+  
+  paypalLogInButton.onclick = function() {
+    changeURL()
+  };
+
+  function changeURL() {
+    window.location.href = "https://www.paypal.com/login";
+  }
+
   return {
     form: getFormField(),
     submitButton: getSubmitButton(),
